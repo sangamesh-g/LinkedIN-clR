@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fxk!9a2b)9=%mbsdo0v!5&y)^i=6+a$*exkm5u@^%)9hk@dxh=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
 
 
 # Application definition
@@ -84,12 +84,8 @@ WSGI_APPLICATION = 'LinkedIn.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'TechSnap',
-        'USER': 'postgres',
-        'PASSWORD': 'Sangamesh',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
