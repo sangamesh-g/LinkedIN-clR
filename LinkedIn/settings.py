@@ -13,20 +13,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import environ
-from django.contrib.auth import get_user_model
 
-if os.environ.get("DJANGO_SUPERUSER_USERNAME"):
+from django.contrib.auth import get_user_model
+from django.db.utils import OperationalError
+
+if os.environ.get("CREATE_SUPERUSER", "False") == "True":
     try:
         User = get_user_model()
         if not User.objects.filter(username=os.environ["DJANGO_SUPERUSER_USERNAME"]).exists():
             User.objects.create_superuser(
-                os.environ["DJANGO_SUPERUSER_USERNAME"],
-                os.environ["DJANGO_SUPERUSER_EMAIL"],
-                os.environ["DJANGO_SUPERUSER_PASSWORD"],
+                username=os.environ["DJANGO_SUPERUSER_USERNAME"],
+                email=os.environ["DJANGO_SUPERUSER_EMAIL"],
+                password=os.environ["DJANGO_SUPERUSER_PASSWORD"],
             )
-            print("✅ Superuser created successfully")
-    except Exception as e:
-        print(f"⚠️ Could not create superuser: {e}")
+            print("✅ Superuser created!")
+    except OperationalError:
+        print("⚠️ Database not ready, skipping superuser creation.")
+
 
 env = environ.Env()
 environ.Env.read_env()
