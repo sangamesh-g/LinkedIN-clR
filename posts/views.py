@@ -9,7 +9,8 @@ import json
 from .pagination import PostPagination
 
 class PostViewSet(viewsets.ModelViewSet):
-	queryset = Post.objects.all()
+	# Order by -id to ensure consistent ordering for pagination
+	queryset = Post.objects.all().order_by('-id')
 	serializer_class = PostSerializer
 	pagination_class = PostPagination
 	permission_classes = [IsAuthenticatedOrReadOnly]
@@ -123,8 +124,8 @@ class PostViewSet(viewsets.ModelViewSet):
 		return Response(share_data, status=status.HTTP_200_OK)
 
 class TagViewSet(viewsets.ModelViewSet):
-	queryset = Tag.objects.all()
+	# Order by id to ensure consistent ordering for pagination
+	queryset = Tag.objects.all().order_by('id')
 	serializer_class = TagSerializer
 	pagination_class = PostPagination
 	permission_classes = [IsAuthenticatedOrReadOnly]
-
