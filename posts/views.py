@@ -6,10 +6,12 @@ from .serializers import PostSerializer, TagSerializer, ReactionSerializer, Comm
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.utils import timezone
 import json
+from .pagination import PostPagination
 
 class PostViewSet(viewsets.ModelViewSet):
 	queryset = Post.objects.all()
 	serializer_class = PostSerializer
+	pagination_class = PostPagination
 	permission_classes = [IsAuthenticatedOrReadOnly]
 
 	def perform_create(self, serializer):
@@ -123,5 +125,6 @@ class PostViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
 	queryset = Tag.objects.all()
 	serializer_class = TagSerializer
+	pagination_class = PostPagination
 	permission_classes = [IsAuthenticatedOrReadOnly]
 
